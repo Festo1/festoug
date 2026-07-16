@@ -61,3 +61,4 @@ verify-*.png
 
 # Local upload artifacts (now handled by Cloudinary)
 public/uploads/
+.gstack/

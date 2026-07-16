@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { sendEmail } from "@/app/actions/contact";
-import { Send } from "lucide-react";
+import { Send, MapPin } from "lucide-react";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+  // Fallback: iframe load can fire before hydration attaches onLoad,
+  // which would leave the placeholder covering a loaded map forever
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMapLoaded(true), 4000);
+    return () => clearTimeout(timer);
+  }, []);
   const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error", text: string } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,14 +45,30 @@ export default function ContactPage() {
 
       {/* Google Map */}
       <section className="mb-10">
-        <figure className="rounded-[16px] overflow-hidden border border-jet shadow-1">
+        <figure className="relative h-[400px] rounded-[16px] overflow-hidden border border-jet bg-eerie-black-1">
+          {/* Themed placeholder shown until the embed finishes loading */}
+          <div
+            aria-hidden="true"
+            className={`absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-eerie-black-1 transition-opacity duration-500 ${
+              isMapLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          >
+            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-onyx border border-jet motion-safe:animate-pulse">
+              <MapPin className="w-5 h-5 text-orange-yellow-crayola" />
+            </div>
+            <p className="text-light-gray text-sm font-medium">Bugolobi, Kampala, Uganda</p>
+            <p className="text-light-gray-70 text-xs">Loading map…</p>
+          </div>
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.035959227225!2d32.613387183410396!3d0.3124645449513956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbc01495c9873%3A0xa7d285a6dfaac8!2sBugoloobi%2C%20Kampala!5e0!3m2!1sen!2sug!4v1716838058055!5m2!1sen!2sug"
             width="100%"
             height="400"
             loading="lazy"
-            title="Google Map"
-            className="border-0 filter contrast-[1.2] opacity-80 transition-all duration-300 hover:filter-none"
+            title="Map of Bugolobi, Kampala, Uganda"
+            onLoad={() => setIsMapLoaded(true)}
+            className={`border-0 filter contrast-[1.2] transition-opacity duration-500 hover:filter-none ${
+              isMapLoaded ? "opacity-80" : "opacity-0"
+            }`}
           ></iframe>
         </figure>
       </section>
@@ -69,6 +93,8 @@ export default function ContactPage() {
               type="text"
               name="fullname"
               placeholder="Full name"
+              aria-label="Full name"
+              autoComplete="name"
               required
               className="bg-transparent border border-jet text-white-2 placeholder:text-light-gray-70 text-[15px] font-light px-5 py-4 rounded-[14px] outline-none focus:border-light-gray focus:ring-1 focus:ring-light-gray/40 focus-visible:outline-none selection:bg-light-gray/30 selection:text-white-2 transition-colors"
             />
@@ -76,6 +102,8 @@ export default function ContactPage() {
               type="email"
               name="email"
               placeholder="Email address"
+              aria-label="Email address"
+              autoComplete="email"
               required
               className="bg-transparent border border-jet text-white-2 placeholder:text-light-gray-70 text-[15px] font-light px-5 py-4 rounded-[14px] outline-none focus:border-light-gray focus:ring-1 focus:ring-light-gray/40 focus-visible:outline-none selection:bg-light-gray/30 selection:text-white-2 transition-colors"
             />
@@ -84,6 +112,7 @@ export default function ContactPage() {
           <textarea
             name="message"
             placeholder="Your Message"
+            aria-label="Your message"
             required
             rows={5}
             className="bg-transparent border border-jet text-white-2 placeholder:text-light-gray-70 text-[15px] font-light px-5 py-4 rounded-[14px] outline-none focus:border-light-gray focus:ring-1 focus:ring-light-gray/40 focus-visible:outline-none selection:bg-light-gray/30 selection:text-white-2 transition-colors resize-y min-h-[120px]"

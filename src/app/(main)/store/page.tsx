@@ -2,7 +2,7 @@ import { withRetry } from "@/lib/db";
 import { products } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, PackagePlus, ArrowRight } from "lucide-react";
 import { stripHtml } from "@/lib/sanitize";
 
 export const dynamic = "force-dynamic";
@@ -91,6 +91,26 @@ export default async function StorePage() {
               </div>
             </Link>
           ))}
+
+          {/* Coming-soon tile keeps a small catalog from feeling half-built */}
+          {availableProducts.length < 3 && (
+            <div className="rounded-[20px] border border-dashed border-jet bg-eerie-black-1/60 p-8 flex flex-col items-center justify-center text-center gap-3 min-h-[280px]">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-onyx border border-jet">
+                <PackagePlus className="w-5 h-5 text-light-gray-70" aria-hidden />
+              </div>
+              <h3 className="text-white-2 text-base font-semibold">More products on the way</h3>
+              <p className="text-light-gray-70 text-sm font-light max-w-[26ch]">
+                New templates and developer tools are in the works.
+              </p>
+              <Link
+                href="/get-started"
+                className="inline-flex items-center gap-1 text-orange-yellow-crayola text-sm font-medium hover:underline underline-offset-4"
+              >
+                Need something custom?
+                <ArrowRight className="w-3.5 h-3.5" aria-hidden />
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </article>
