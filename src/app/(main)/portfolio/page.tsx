@@ -2,6 +2,8 @@ import { withRetry } from "@/lib/db";
 import { projects as projectsTable } from "@/lib/db/schema";
 import { asc, eq } from "drizzle-orm";
 import { PortfolioGrid } from "@/components/marketing/portfolio-grid";
+import { GithubRepos } from "@/components/marketing/github-repos";
+import { getGitHubRepos } from "@/lib/github";
 
 export const dynamic = "force-dynamic";
 
@@ -11,13 +13,16 @@ export const metadata = {
 };
 
 export default async function PortfolioPage() {
-  const dbProjects = await withRetry((db) =>
-    db
-      .select()
-      .from(projectsTable)
-      .where(eq(projectsTable.isActive, true))
-      .orderBy(asc(projectsTable.sortOrder))
-  );
+  const [dbProjects, repos] = await Promise.all([
+    withRetry((db) =>
+      db
+        .select()
+        .from(projectsTable)
+        .where(eq(projectsTable.isActive, true))
+        .orderBy(asc(projectsTable.sortOrder))
+    ),
+    getGitHubRepos(6),
+  ]);
 
   const projects = dbProjects.map((p) => ({
     id: p.id,
@@ -38,6 +43,25 @@ export default async function PortfolioPage() {
       </header>
 
       <PortfolioGrid projects={projects} />
+
+      {repos.length > 0 && (
+        <section className="mt-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-white-2 text-2xl font-semibold capitalize">
+              Open Source on GitHub
+            </h3>
+            <a
+              href="https://github.com/Festo-Wampamba"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-yellow-crayola text-sm font-medium hover:underline underline-offset-4"
+            >
+              View GitHub
+            </a>
+          </div>
+          <GithubRepos repos={repos} />
+        </section>
+      )}
     </div>
   );
 }

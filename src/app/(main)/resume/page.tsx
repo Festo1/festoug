@@ -1,5 +1,5 @@
 import { TimelineItem } from "@/components/marketing/timeline-item";
-import { SkillBar } from "@/components/marketing/skill-bar";
+import { SkillTags } from "@/components/marketing/skill-tags";
 import { AnimatedBookIcon } from "@/components/marketing/animated-book-icon";
 import { AnimatedBriefcaseIcon } from "@/components/marketing/animated-briefcase-icon";
 
@@ -67,7 +67,7 @@ export default function ResumePage() {
         <ol className="list-none">
           <TimelineItem
             role="Software Developer"
-            institution="Online"
+            institution="Freelance — Remote"
             period="2022 — Present"
             description={`Optimized application performance by regularly conducting code reviews and refactoring, leading to a 25% improvement in system efficiency across major projects like NextEvent UG.\nEnhanced user experience by designing and implementing intuitive user interfaces, which improved customer satisfaction ratings by 35% according to user feedback surveys.\nBoosted customer satisfaction rates through timely resolution of reported technical issues during the support phase of projects.`}
           />
@@ -86,18 +86,26 @@ export default function ResumePage() {
           <h3 className="text-white-2 text-xl font-bold uppercase tracking-wide font-head leading-none">My Skills</h3>
           <div className="mt-1.5 h-1 w-10 rounded-full bg-gradient-to-r from-orange-yellow-crayola to-accent-2" />
         </div>
-        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* Technical — from four areas of expertise */}
-          <SkillBar title="Web Development"      value={90} index={0} />
-          <SkillBar title="Server Administration" value={99} index={1} />
-          <SkillBar title="Network Engineering"   value={95} index={2} />
-          <SkillBar title="IT Infrastructure"     value={83} index={3} />
-          {/* Soft skills */}
-          <SkillBar title="Problem Solving"       value={90} index={4} />
-          <SkillBar title="Team Collaboration"    value={85} index={5} />
-          <SkillBar title="Communication"         value={93} index={6} />
-          <SkillBar title="Project Management"    value={80} index={7} />
-        </ul>
+        <SkillTags
+          groups={[
+            {
+              label: "Languages & Frameworks",
+              skills: ["Python", "JavaScript", "TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS"],
+            },
+            {
+              label: "Backend & Data",
+              skills: ["PostgreSQL", "Drizzle ORM", "REST APIs", "Authentication & Payments"],
+            },
+            {
+              label: "Infrastructure & Networking",
+              skills: ["Linux Server Administration", "Docker", "Nginx", "Network Engineering", "IT Infrastructure", "Vercel", "CI/CD"],
+            },
+            {
+              label: "Professional",
+              skills: ["Problem Solving", "Team Collaboration", "Communication", "Project Management"],
+            },
+          ]}
+        />
       </div>
     </div>
   );

@@ -175,9 +175,10 @@ export function Navbar() {
           px-2 py-1.5 sm:px-2.5 sm:py-2
           overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
           bg-eerie-black-2/90 backdrop-blur-2xl
-          border border-white/[0.07]
+          border border-jet
           rounded-[26px]
-          shadow-[0_8px_40px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)]">
+          shadow-[0_8px_32px_rgba(0,0,0,0.14)]
+          dark:shadow-[0_8px_40px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)]">
 
           {/* Nav icon links */}
           {links.map((link) => {
@@ -194,7 +195,7 @@ export function Navbar() {
                   transition-all duration-200
                   ${isActive
                     ? "bg-orange-yellow-crayola/15 text-orange-yellow-crayola"
-                    : "text-light-gray-70 hover:text-white-2 hover:bg-white/5"
+                    : "text-light-gray-70 hover:text-white-2 hover:bg-onyx dark:hover:bg-white/5"
                   }`}
               >
                 <link.Icon
@@ -209,7 +210,7 @@ export function Navbar() {
           })}
 
           {/* Divider */}
-          <div className="w-px h-4 sm:h-5 bg-white/[0.09] mx-0.5 sm:mx-1 shrink-0" />
+          <div className="w-px h-4 sm:h-5 bg-jet mx-0.5 sm:mx-1 shrink-0" />
 
           {/* Theme toggle — constrained to pill item size */}
           <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 shrink-0 overflow-hidden">
@@ -223,7 +224,7 @@ export function Navbar() {
                 ref={mobileButtonRef}
                 type="button"
                 onClick={() => setDropdownOpen((o) => !o)}
-                className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full hover:bg-white/5 transition-colors shrink-0"
+                className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full hover:bg-onyx dark:hover:bg-white/5 transition-colors shrink-0"
                 aria-label="Account menu"
               >
                 <UserAvatar user={session.user} size="sm" />
@@ -231,7 +232,7 @@ export function Navbar() {
             ) : (
               <Link
                 href="/auth/signin"
-                className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full text-light-gray-70 hover:text-white-2 hover:bg-white/5 transition-colors shrink-0"
+                className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full text-light-gray-70 hover:text-white-2 hover:bg-onyx dark:hover:bg-white/5 transition-colors shrink-0"
                 title="Sign in"
                 aria-label="Sign in"
               >
@@ -243,11 +244,12 @@ export function Navbar() {
       </nav>
 
       {/* ── Desktop (xl+): Glassmorphism top-right nav ───────────────────────── */}
-      <nav className="hidden lg:block absolute top-0 right-0 z-50
-        bg-white/[0.04] backdrop-blur-2xl
-        border border-white/[0.08]
+      <nav className="hidden lg:block absolute top-0 right-0 z-50 max-w-full
+        bg-eerie-black-2/85 dark:bg-white/[0.04] backdrop-blur-2xl
+        border border-jet dark:border-white/[0.08]
         rounded-tr-[20px] rounded-bl-[24px]
-        shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.07)]">
+        shadow-[0_4px_20px_rgba(0,0,0,0.10)]
+        dark:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.07)]">
         <ul className="flex flex-nowrap items-center px-4 py-1.5 gap-0.5">
           {links.map((link) => {
             const isActive =
@@ -256,22 +258,24 @@ export function Navbar() {
               <li key={link.href} className="shrink-0">
                 <Link
                   href={link.href}
+                  title={link.label}
                   className={`flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition-all duration-200 ${
                     isActive
                       ? "text-orange-yellow-crayola bg-orange-yellow-crayola/10"
-                      : "text-light-gray hover:text-white-2 hover:bg-white/[0.06]"
+                      : "text-light-gray hover:text-white-2 hover:bg-onyx dark:hover:bg-white/[0.06]"
                   }`}
                 >
                   <link.Icon
                     className="w-[14px] h-[14px] shrink-0"
                     strokeWidth={isActive ? 2.2 : 1.8}
                   />
-                  {link.label}
+                  {/* Labels need xl width; below that the pill overflows its column onto the sidebar */}
+                  <span className="hidden xl:inline">{link.label}</span>
                 </Link>
               </li>
             );
           })}
-          <li className="flex items-center pl-2 ml-1 border-l border-white/[0.08] shrink-0 gap-1">
+          <li className="flex items-center pl-2 ml-1 border-l border-jet dark:border-white/[0.08] shrink-0 gap-1">
             <div className="w-8 h-8 flex items-center justify-center shrink-0">
               <ThemeToggle />
             </div>
@@ -280,7 +284,7 @@ export function Navbar() {
                 ref={desktopButtonRef}
                 type="button"
                 onClick={() => setDropdownOpen((o) => !o)}
-                className="flex items-center gap-2 py-[7px] px-3 rounded-xl hover:bg-white/[0.06] transition-colors"
+                className="flex items-center gap-2 py-[7px] px-3 rounded-xl hover:bg-onyx dark:hover:bg-white/[0.06] transition-colors"
                 title="Your account"
               >
                 <UserAvatar user={session.user} size="md" />

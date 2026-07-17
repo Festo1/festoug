@@ -15,6 +15,7 @@ export function ClientLogos() {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     function step() {
       if (!isPausedRef.current) {

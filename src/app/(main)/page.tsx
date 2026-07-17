@@ -57,7 +57,7 @@ export default async function AboutPage() {
         <p>
           I am a self-motivated and resourceful software developer with a proven
           ability to devise reliable solutions for complex software issues. With
-          extensive experience in software development, Festo brings a deep
+          extensive experience in software development, I bring a deep
           understanding of technology along with a commitment to applying
           innovative software practices to enhance operational efficiency.
         </p>

@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Code2, Server, Network, HardDrive, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { Code2, Server, Network, HardDrive, ArrowRight, type LucideIcon } from "lucide-react";
 
 interface ServiceCardProps {
   title: string;
@@ -115,6 +116,15 @@ export function ServiceCard({ title, icon, description, index = 0 }: ServiceCard
         <p className="text-light-gray text-sm font-light leading-relaxed">
           {description}
         </p>
+
+        <Link
+          href="/services"
+          className={`mt-3 inline-flex items-center gap-1 text-[13px] font-medium ${accent.iconText} hover:underline underline-offset-4 rounded-sm`}
+          aria-label={`Learn more about ${title}`}
+        >
+          Learn more
+          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0" aria-hidden />
+        </Link>
       </div>
     </div>
   );

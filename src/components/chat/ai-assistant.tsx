@@ -336,13 +336,21 @@ export function AiAssistant() {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className={`fixed z-50 bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,181,63,0.3)] transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(255,181,63,0.5)] active:scale-95 ${
+            className={`peer fixed z-50 bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,181,63,0.3)] transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(255,181,63,0.5)] active:scale-95 ${
               isOpen ? 'bg-jet text-white-2' : 'bg-orange-yellow-crayola text-smoky-black'
             }`}
-            aria-label="Toggle AI Chat"
+            aria-label={isOpen ? "Close chat" : "Chat with my AI assistant"}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Sparkles className="w-6 h-6" />}
           </button>
+          {!isOpen && (
+            <span
+              role="tooltip"
+              className="fixed z-50 bottom-[2.1rem] right-[5.5rem] whitespace-nowrap bg-eerie-black-2 text-white-2 text-xs font-medium px-3 py-2 rounded-lg border border-jet shadow-[0_4px_20px_rgba(0,0,0,0.3)] opacity-0 translate-x-1 pointer-events-none transition-all duration-200 peer-hover:opacity-100 peer-hover:translate-x-0 peer-focus-visible:opacity-100 peer-focus-visible:translate-x-0 motion-reduce:transition-none motion-reduce:translate-x-0"
+            >
+              Chat with my AI assistant
+            </span>
+          )}
           {!isOpen && (
             <span className="fixed bottom-[calc(1.5rem+3rem)] right-6 w-4 h-4 bg-green-400 border-2 border-smoky-black rounded-full animate-pulse z-50 pointer-events-none" />
           )}
@@ -361,7 +369,7 @@ export function AiAssistant() {
           } ${!btnPos ? "bottom-20 right-4" : "chat-btn-dragged"}`}
            
           style={btnPos ? ({ "--bx": `${btnPos.x}px`, "--by": `${btnPos.y}px` } as React.CSSProperties) : undefined}
-          aria-label="Toggle AI Chat"
+          aria-label={isOpen ? "Close chat" : "Chat with my AI assistant"}
         >
           {isOpen ? <X className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
           {!isOpen && (
